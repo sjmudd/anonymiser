@@ -27,6 +27,6 @@ func TestAnonymise(t *testing.T) {
 
 func BenchmarkFirstValue(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		Anonymise("prefix","some_name")
+		Anonymise("prefix", "some_name")
 	}
 }

@@ -50,6 +50,10 @@ func (a *anonymous) add(orig string) string {
 	return a.name(orig)
 }
 
+// Anonymise takes a prefix and name and returns a string consisting
+// of the prefix plus a number. If the string has been seen before
+// then the same name is returned.  Use different prefixes if you want
+// to store different sets of names.
 func Anonymise(prefix, name string) string {
 	if _, ok := prefixMap[prefix]; !ok {
 		b := anonymous{prefix: prefix, id: make(map[string]int)}
