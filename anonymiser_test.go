@@ -25,6 +25,37 @@ func TestAnonymise(t *testing.T) {
 	}
 }
 
+func TestClear(t *testing.T) {
+	Enable()
+
+	cases := []struct{ prefix, name, want string }{
+		{"prefix", "valueXX", "prefix1"},
+		{"prefix", "valueZZ", "prefix2"},
+	}
+
+	for _, c := range cases {
+		got := Anonymise(c.prefix, c.name)
+		if got != c.want {
+			t.Errorf("Anonymise(%s,%s) => %s, want %s", c.prefix, c.name, got, c.want)
+		}
+
+	}
+	// Reset data
+	Clear()
+
+	cases2 := []struct{ prefix, name, want string }{
+		{"prefix", "valueZZ", "prefix1"},
+		{"prefix", "valueXX", "prefix2"},
+	}
+	for _, c := range cases2 {
+		got := Anonymise(c.prefix, c.name)
+		if got != c.want {
+			t.Errorf("Anonymise(%s,%s) => %s, want %s", c.prefix, c.name, got, c.want)
+		}
+
+	}
+}
+
 func BenchmarkEnabled(b *testing.B) {
 	Enable()
 	for i := 0; i < b.N; i++ {
