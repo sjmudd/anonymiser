@@ -22,11 +22,37 @@ type anonymous struct {
 	id     map[string]int
 }
 
-var prefixMap map[string]anonymous
+var (
+	prefixMap map[string]anonymous
+	enabled bool
+)
 
 // initinitialise structures
 func init() {
+	enabled = true
+	Clear()
+}
+
+// Clear removes any previous data that might have been stored.
+func Clear() {
+	// no need to clean up explicitly if we had old data?
+	// I guess go garbage collects but might be nice to do this???
 	prefixMap = make(map[string]anonymous)
+}
+
+// Enable the anonymiser.
+func Enable() {
+	enabled = true
+}
+
+// Disable the anonymiser. By default it is enabled.
+func Disable() {
+	enabled = false
+}
+
+// Enabled returns if anonymising is enabled
+func Enabled() bool {
+	return enabled
 }
 
 // does the name exist already
@@ -55,6 +81,9 @@ func (a *anonymous) add(orig string) string {
 // then the same name is returned.  Use different prefixes if you want
 // to store different sets of names.
 func Anonymise(prefix, name string) string {
+	if ! enabled {
+		return name
+	}
 	if _, ok := prefixMap[prefix]; !ok {
 		b := anonymous{prefix: prefix, id: make(map[string]int)}
 		b.add(name)
