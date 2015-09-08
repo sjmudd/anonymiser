@@ -32,12 +32,12 @@ You can use as many prefixes as you like.
 
 I guess in real code you'd do something like this:
 ```
-var hide_me []string { ... } // holds important strings (maybe with duplicates)
+var secret []string { ... } // holds strings of secrent information (maybe with duplicates)
 
-... // fill hide_me with useful data
+... // fill secret with useful data
 
-for i := range hide_me {
-	fmt.Println( "secret:", hide_me[i], "==>", anonymise.Anonymise( "anonymised", hide_me[i] ) )
+for i := range secret {
+	fmt.Println( "secret:", secret[i], "==>", anonymise.Anonymise( "anonymised", secret[i] ) )
 }
 ``` 
 
