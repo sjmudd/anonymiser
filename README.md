@@ -19,6 +19,6 @@ There is basically one routine anonymise.Anonymise( "prefix", "some_name" )
 
 # Installation
 
-Install each library by doing:
+Install by doing:
 `go get github.com/sjmudd/ps-top/anonymiser`
 
