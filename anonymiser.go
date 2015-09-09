@@ -40,14 +40,9 @@ func Clear() {
 	prefixMap = make(map[string]anonymous)
 }
 
-// Enable the anonymiser.
-func Enable() {
-	enabled = true
-}
-
-// Disable the anonymiser. By default it is enabled.
-func Disable() {
-	enabled = false
+// Enable the anonymiser. We provide a boolean to signal intent
+func Enable(set_enabled bool) {
+	enabled = set_enabled
 }
 
 // Enabled returns if anonymising is enabled
