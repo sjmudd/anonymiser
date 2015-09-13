@@ -3,18 +3,24 @@ Anonymise some values for showing to the "public"
 
 # Description.
 
-Looks like a key cache but when we get a new name we return the
-prefix plus a number each new name has the number increased.
+Allows a group of strings to be anonymised that is converted into
+another set of string values. The anonymised strings consist of
+the group name plus a number which increases with each new string
+that needs anonymising.
 
-Can be used to convert private names into a public anonymous set (e.g. ps-top)
+Can be used to convert private names into a public anonymous set (e.g. [`ps-top`](https://godoc.org/github.com/sjmudd/ps-top]))
 
-There is basically one routine `anonymise.Anonymise( "prefix", "some_name" )`.
+In `ps-top` I wanted to anonymise the host, database and table names
+which were shown as they might expose internal information to third parties.
+This package made that easy.
 
-I wanted to anonymise the database and table names. This is the
-prefix in the Anonymise() function.  The second parameter is the
-name to anonymise and basically each new name gets an id starting
-at 1. This id is added to the end of the prefix and that's what is
-returned as the anonymised name.
+There is basically one routine `anonymise.Anonymise( "group", "some_name" )`.
+
+The first parameter is the name of the group of strings to be
+anonyised, The second parameter is the name to anonymise and basically
+each new name gets an id starting at 1. This id is added to the end
+of the group name and that's what is returned as the anonymised
+name.
 
 e.g.
 To anonymise some database names:
@@ -45,3 +51,7 @@ for i := range secret {
 
 Install by doing:
 * `go get github.com/sjmudd/ps-top/anonymiser`
+
+# Documentation
+
+Documentation can be found using `godoc` or at [https://godoc.org/github.com/sjmudd/anonymiser]
