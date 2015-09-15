@@ -91,6 +91,7 @@ func TestGroups(t *testing.T) {
 	}
 	groups := Groups()
 	sort.Strings(cases)
+	sort.Strings(groups)
 	if cases == nil || groups == nil {
 		t.Errorf("TestGroups() cases or groups is nil")
 	}

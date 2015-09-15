@@ -1,10 +1,5 @@
 package anonymiser
 
-import (
-	"fmt"
-	"sort"
-)
-
 /*
 Designed to anonymise a group of strings.
 We provide a group name and string and get back an anonymised string based on the group name.
@@ -19,14 +14,8 @@ Anonymise( "db",    "otherdb" ) --> db2
 Anonymise( "db",    "my_db" )   --> db1
 */
 
-type anonymous struct {
-	group string
-	last  int
-	id    map[string]int
-}
-
 var (
-	groupMap map[string]anonymous
+	groupMap map[string]*onegroup
 	enabled  bool
 )
 
@@ -40,7 +29,7 @@ func init() {
 func Clear() {
 	// no need to clean up explicitly if we had old data?
 	// I guess go garbage collects but might be nice to do this???
-	groupMap = make(map[string]anonymous)
+	groupMap = make(map[string]*onegroup)
 }
 
 // Enable the anonymiser. We provide a boolean to signal intent
@@ -53,27 +42,6 @@ func Enabled() bool {
 	return enabled
 }
 
-// does the group name exist already?
-func (a anonymous) exists(group string) bool {
-	_, ok := a.id[group]
-	return ok
-}
-
-// return the anonymised name
-func (a *anonymous) name(orig string) string {
-	if a.exists(orig) {
-		return fmt.Sprintf("%s%d", a.group, a.id[orig])
-	}
-	return a.add(orig)
-}
-
-// add a new value and return the anonymised name
-func (a *anonymous) add(orig string) string {
-	a.last++
-	a.id[orig] = a.last
-	return a.name(orig)
-}
-
 // Anonymise takes a group and name and returns a string consisting
 // of the group plus a number. If the string has been seen before
 // then the same name is returned.  Use different groups if you want
@@ -82,23 +50,31 @@ func Anonymise(group, name string) string {
 	if !enabled {
 		return name
 	}
+	if name == "" {
+		return name // empty string shouldn't be anonymised I think.
+	}
+	// does the group exist?
 	if _, ok := groupMap[group]; !ok {
-		b := anonymous{group: group, id: make(map[string]int)}
-		b.add(name)
-		groupMap[group] = b
+		newGroup := &onegroup{group: group, id: make(map[string]int)}
+		newGroup.add(name)
+		groupMap[group] = newGroup
 	}
 
-	a := groupMap[group]
-	return a.name(name)
+	// does the entry exist?
+	return groupMap[group].name(name)
 }
 
-// Groups returns a sorted list of known groups
+// expose for testing but should not really otherwise.
+// func Self() map[string]*onegroup {
+// 	return groupMap
+// }
+
+// Groups returns a slice of strings with the known groups
 func Groups() []string {
 	groups := make([]string, 0)
 	for grp, _ := range groupMap {
 		groups = append(groups, grp)
 	}
-	sort.Strings(groups)
 
 	return groups
 }
