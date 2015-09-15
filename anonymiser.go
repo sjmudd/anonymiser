@@ -2,6 +2,7 @@ package anonymiser
 
 import (
 	"fmt"
+	"sort"
 )
 
 /*
@@ -89,4 +90,15 @@ func Anonymise(group, name string) string {
 
 	a := groupMap[group]
 	return a.name(name)
+}
+
+// Groups returns a sorted list of known groups
+func Groups() []string {
+	groups := make([]string, 0)
+	for grp, _ := range groupMap {
+		groups = append(groups, grp)
+	}
+	sort.Strings(groups)
+
+	return groups
 }

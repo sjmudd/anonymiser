@@ -1,6 +1,7 @@
 package anonymiser
 
 import (
+	"sort"
 	"testing"
 )
 
@@ -76,6 +77,33 @@ func TestClear(t *testing.T) {
 			t.Errorf("Anonymise(%s,%s) => %s, want %s", c.prefix, c.name, got, c.want)
 		}
 
+	}
+}
+
+func TestGroups(t *testing.T) {
+	Clear()
+	Enable(true)
+
+	cases := []string{"group3", "group2", "group1"}
+
+	for i := range cases {
+		Anonymise(cases[i], "random_string") // ignore return value.
+	}
+	groups := Groups()
+	sort.Strings(cases)
+	if cases == nil || groups == nil {
+		t.Errorf("TestGroups() cases or groups is nil")
+	}
+	if len(groups) != 3 {
+		t.Errorf("TestGroups() group length is wrong")
+	}
+	if len(cases) != len(groups) {
+		t.Errorf("TestGroups() length of cases and groups don't match")
+	}
+	for i := 0; i < len(cases); i++ {
+		if cases[i] != groups[i] {
+			t.Errorf("TestGroups() values not the same for: i=%d, cases[i]=%s, groups[i]=%v", i, cases[i], groups[i])
+		}
 	}
 }
 
