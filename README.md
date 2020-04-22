@@ -3,12 +3,23 @@ Anonymise some values for showing to the "public"
 
 # Description.
 
-Allows a group of strings to be anonymised that is converted into
-another set of string values. The anonymised strings consist of
-the group name plus a number which increases with each new string
-that needs anonymising.
+Anonymiser allows a group of strings to be anonymised: that is
+converted into another set of string values.
 
-Can be used to convert private names into a public anonymous set (e.g. [`ps-top`](https://godoc.org/github.com/sjmudd/ps-top]))
+Strings can be split into groups so that similar types of
+strings are anonymised together.
+
+An example of this might be a program which is exposing database
+and table names from an internal company database server. Here
+we would like to anonymise the names being used but share the
+output of the screen with anonymous information.
+
+All database names would be converted into `db1`, `db2` ... `dbn`,
+and all table names converted into `table`, `table2` ... `tablen`.
+
+Other similar use cases can be imagined.
+
+An example: [`ps-top`](https://godoc.org/github.com/sjmudd/ps-top])
 
 In `ps-top` I wanted to anonymise the host, database and table names
 which were shown as they might expose internal information to third parties.
@@ -50,7 +61,7 @@ for i := range secret {
 # Installation
 
 Install by doing:
-* `go get github.com/sjmudd/ps-top/anonymiser`
+* `go get github.com/sjmudd/anonymiser`
 
 # Documentation
 
