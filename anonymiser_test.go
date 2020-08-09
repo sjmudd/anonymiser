@@ -81,26 +81,40 @@ func TestClear(t *testing.T) {
 }
 
 func TestGroups(t *testing.T) {
+	const randomString = "random_string"
 	Clear()
 	Enable(true)
 
-	cases := []string{"group3", "group2", "group1"}
+	// deliberately not in alphabetical order
+	cases := []string{
+		"group3",
+		"group2",
+		"group1",
+	}
 
 	for i := range cases {
-		Anonymise(cases[i], "random_string") // ignore return value.
+		Anonymise(cases[i], randomString) // ignore return value.
 	}
+
+	// sort the group names
 	groups := Groups()
-	sort.Strings(cases)
 	sort.Strings(groups)
+
+	// sort the input test cases
+	sort.Strings(cases)
+
+	// basic checks
 	if cases == nil || groups == nil {
 		t.Errorf("TestGroups() cases or groups is nil")
 	}
 	if len(groups) != 3 {
-		t.Errorf("TestGroups() group length is wrong")
+		t.Errorf("TestGroups() group length is wrong.  Got: %v, expecting %v", len(groups), 3)
 	}
 	if len(cases) != len(groups) {
-		t.Errorf("TestGroups() length of cases and groups don't match")
+		t.Errorf("TestGroups() length of cases and groups don't match.  cases: %v, groups: %v", len(cases), len(groups))
 	}
+
+	// verify group names match original test case group names
 	for i := 0; i < len(cases); i++ {
 		if cases[i] != groups[i] {
 			t.Errorf("TestGroups() values not the same for: i=%d, cases[i]=%s, groups[i]=%v", i, cases[i], groups[i])

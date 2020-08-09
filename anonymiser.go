@@ -78,7 +78,7 @@ func Anonymise(group, name string) string {
 
 // Groups returns a slice of strings with the known groups
 func Groups() []string {
-	groups := make([]string, len(groupMap))
+	groups := make([]string, 0, len(groupMap))
 	for grp := range groupMap {
 		groups = append(groups, grp)
 	}
