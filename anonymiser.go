@@ -2,16 +2,29 @@ package anonymiser
 
 /*
 Designed to anonymise a group of strings.
-We provide a group name and string and get back an anonymised string based on the group name.
-Can be used to convert private names into a public anonymous set (e.g. ps-top)
-e.g.
-Anonymise( "table", "tablea" )  --> table1
-Anonymise( "table", "tableb" )  --> table2
-Anonymise( "table", "tablea" )  --> table1
-Anonymise( "db",    "my_db" )   --> db1
-Anonymise( "db",    "otherdb" ) --> db2
-Anonymise( "db",    "otherdb" ) --> db2
-Anonymise( "db",    "my_db" )   --> db1
+
+We provide a group name and string and get back an anonymised string
+based on the group name.
+
+Can be used to convert private names into a public anonymous set
+(e.g. https://github.com/sjmudd/ps-top)
+
+Usage:
+
+	import (
+		"fmt"
+		"github.com/sjmudd/anonymiser"
+	)
+	...
+	anonymiser.Enable()
+	fmt.Println(anonymiser.Anonymise( "table", "tablea" ))  // table1
+	fmt.Println(anonymiser.Anonymise( "table", "tableb" ))  // table2
+	fmt.Println(anonymiser.Anonymise( "table", "tablea" ))  // table1
+	fmt.Println(anonymiser.Anonymise( "db",    "my_db" ))   // db1
+	fmt.Println(anonymiser.Anonymise( "db",    "otherdb" )) // db2
+	fmt.Println(anonymiser.Anonymise( "db",    "otherdb" )) // db2
+	fmt.Println(anonymiser.Anonymise( "db",    "my_db" ))   // db1
+
 */
 
 var (
@@ -60,19 +73,13 @@ func Anonymise(group, name string) string {
 		groupMap[group] = newGroup
 	}
 
-	// does the entry exist?
 	return groupMap[group].name(name)
 }
 
-// expose for testing but should not really otherwise.
-// func Self() map[string]*onegroup {
-// 	return groupMap
-// }
-
 // Groups returns a slice of strings with the known groups
 func Groups() []string {
-	groups := make([]string, 0)
-	for grp, _ := range groupMap {
+	groups := make([]string, len(groupMap))
+	for grp := range groupMap {
 		groups = append(groups, grp)
 	}
 
