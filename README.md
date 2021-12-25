@@ -15,7 +15,7 @@ we would like to anonymise the names being used but share the
 output of the screen with anonymous information.
 
 All database names would be converted into `db1`, `db2` ... `dbn`,
-and all table names converted into `table`, `table2` ... `tablen`.
+and all table names converted into `table1`, `table2` ... `tablen`.
 
 Other similar use cases can be imagined.
 
